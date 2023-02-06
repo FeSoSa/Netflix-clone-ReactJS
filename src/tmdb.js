@@ -1,4 +1,6 @@
+import { type } from "@testing-library/user-event/dist/type";
 import App from "./App";
+import Home from "./Pages/Home";
 
 const API_KEY = '8eb4beae0e4519895e694646c91248c2'
 const API_BASE = 'https://api.themoviedb.org/3'
@@ -77,6 +79,24 @@ export default {
         }
 
         return info;
-    }
+    },
 
+    getTrailer: async (movieId,type) => {
+        let info = {};
+
+        if(movieId){
+            switch(type){
+                case 'movie':
+                    info = await basicFetch(`/movie/${movieId}/videos?language=pt-BR&api_key=${API_KEY}`)
+                break;
+                case 'tv':
+                    info = await basicFetch(`/tv/${movieId}/videos?language=pt-BR&api_key=${API_KEY}`)
+                break;
+                default:
+                    info=null;
+                break;
+            }
+        }
+        return info;
+    }
 }
